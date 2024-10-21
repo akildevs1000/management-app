@@ -1,0 +1,19 @@
+<template>
+  <v-card
+    height="70"
+    class="text-center"
+    :style="`background-color:${bgColor}; color:${color}; border-radius: 12px`"
+  >
+    <small class="px-1" style="font-size: 9px">{{ label }}</small>
+    <div class="pa-1 mt-1" style="font-size: 14px">
+      {{ value }} <span v-if="sub_value">/</span>
+      <small v-if="sub_value" style="font-size: 9px">{{ sub_value }}</small>
+    </div>
+  </v-card>
+</template>
+
+<script>
+export default {
+  props: ["label", "value", "sub_value", "color", "bgColor"],
+};
+</script>
