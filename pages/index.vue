@@ -42,14 +42,14 @@
         >
           <div class="pt-2">
             <small class="px-1" style="font-size: 9px">Income</small>
-            <div class="pa-1" style="font-size: 14px">
-              {{ $utils.currency_format(1500) }}
+            <div v-if="income" class="pa-1" style="font-size: 14px">
+              {{ $utils.currency_format(income.total) }}
             </div>
           </div>
           <div class="pt-2">
             <small class="px-1" style="font-size: 9px">Expenses</small>
-            <div class="pa-1" style="font-size: 14px">
-              {{ $utils.currency_format(7500) }}
+            <div v-if="expense" class="pa-1" style="font-size: 14px">
+              {{ $utils.currency_format(expense.total) }}
             </div>
           </div>
         </v-card>
@@ -136,7 +136,7 @@
       :style="`background-color:#f2f6f5; border-radius: 12px`"
       class="pt-1 mt-3"
     >
-      <v-container>
+      <v-container v-if="income">
         <v-row>
           <v-col cols="6">
             <div class="pb-2">Income</div>
@@ -144,37 +144,37 @@
               <tr>
                 <td class="text-left text-color">Cash</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Cash) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">UPI</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.UPI) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">Online</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Online) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">Bank</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Bank) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">Cheque</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Cheque) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">City Ledger</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.CityLedger) }}
                 </td>
               </tr>
             </table>
@@ -186,25 +186,25 @@
               <tr>
                 <td class="text-left text-color">Room</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Cash) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">Hall</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Cash) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">Posting</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Cash) }}
                 </td>
               </tr>
               <tr>
                 <td class="text-left text-color">Others</td>
                 <td class="text-right text-color">
-                  {{ $utils.currency_format(75000) }}
+                  {{ $utils.currency_format(income.Cash) }}
                 </td>
               </tr>
             </table>
@@ -218,6 +218,8 @@
 export default {
   data() {
     return {
+      income: null,
+      expense: null,
       history: [
         {
           icon: "mdi-walk",
@@ -374,6 +376,12 @@ export default {
 
       searchQuery: null,
       filterQuery: ``,
+      from_date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
+      to_date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000)
+        .toISOString()
+        .substr(0, 10),
     };
   },
   watch: {
@@ -381,6 +389,8 @@ export default {
   },
   created() {
     this.room_list();
+    this.getIncome();
+    this.getExpense();
   },
 
   methods: {
@@ -475,6 +485,31 @@ export default {
         //   this.isPageLoad = true;
         // }, 100);
         this.keyTabAll += 1;
+      });
+    },
+    getIncome() {
+      let options = {
+        params: {
+          company_id: this.$auth.user.company.id,
+          from_date: this.from_date,
+          to_date: this.to_date,
+          search: this.search,
+        },
+      };
+      this.$axios.get(`payments`, options).then(({ data }) => {
+        this.income = data.stats;
+      });
+    },
+    getExpense() {
+      let options = {
+        params: {
+          company_id: this.$auth.user.company.id,
+          from_date: this.from_date,
+          to_date: this.to_date,
+        },
+      };
+      this.$axios.get(`expense-count`, options).then(({ data }) => {
+        this.expense = data.stats;
       });
     },
   },
