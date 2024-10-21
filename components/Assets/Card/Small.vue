@@ -1,7 +1,8 @@
 <template>
   <v-card
+    elevation="0"
     height="70"
-    class="text-center"
+    class="text-center pt-1"
     :style="`background-color:${bgColor}; color:${color}; border-radius: 12px`"
   >
     <small class="px-1" style="font-size: 9px">{{ label }}</small>

@@ -1,6 +1,10 @@
 <template>
   <v-app class="main_bg">
     <style>
+      body {
+        font-size: 11px !important;
+      }
+
       .text-color {
         color: #8a8a8a;
       }
@@ -91,6 +95,9 @@
 
     <v-footer fixed app dense flat class="white">
       <v-row align="center" no-gutters>
+        <v-col cols="12" class="mb-1">
+          <v-divider></v-divider>
+        </v-col>
         <!-- Left side with location and date -->
         <v-col class="text-center">
           <v-icon color="#968f9f">mdi-home</v-icon>

@@ -1,11 +1,7 @@
 <template>
-  <span>
-    <div class="text-color mb-2" style="font-size: 11px">
-      Next 7 Days Forecast
-    </div>
-    <div
-      style="display: flex; justify-content: center; gap: 15px; height: 90px"
-    >
+  <div class="pl-2">
+    <div class="mb-2">Next 7 Days Forecast</div>
+    <div style="display: flex; justify-content: left; gap: 18px; height: 90px">
       <div v-for="(item, index) in forecastData" :key="index">
         <div
           :title="item.availableCount"
@@ -33,16 +29,15 @@
             style="
               position: absolute;
               bottom: -22px;
-              font-size: 11px;
-              left: 1px;
+              left: 2px;
             "
           >
-            {{ getFirstLetter(item.label) }}
+          <small>{{ getFirstLetter(item.label) }}</small>
           </div>
         </div>
       </div>
     </div>
-  </span>
+  </div>
 </template>
 
 <script>
@@ -54,7 +49,9 @@ export default {
     let { data } = await this.$axios.get(
       `ten-days-forcast/${this.$auth.user.company_id}`
     );
-    this.forecastData = data;
+    if (data.length > 0) {
+      this.forecastData = data.slice(0, 7);
+    }
   },
   methods: {
     getFirstLetter(label) {

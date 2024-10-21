@@ -1,11 +1,6 @@
 <template>
-  <v-row v-if="labels.length">
-    <v-col
-      v-if="!hideTable"
-      cols="6"
-      class="text-center"
-      style="font-size: 11px"
-    >
+  <v-row v-if="labels.length" class="">
+    <v-col v-if="!hideTable" cols="6" class="text-center">
       <div class="text-color">
         <v-container>
           <table style="width: 100%">
@@ -23,11 +18,11 @@
       <div v-if="chartOptions.customTotalValue == 0" class="empty-doughnut1">
         0
       </div>
-      <div v-else class="text-right">
+      <div v-else class="text-right" style="width: 120px">
         <apexchart
           :key="key"
-          style="margin: 0 auto; text-align: left;"
-          :width="width ?? '170px'"
+          style="margin: 0 auto; text-align: left"
+          width="100%"
           :class="isCentered ? 'mx-auto' : ''"
           type="donut"
           legend="false"
@@ -113,26 +108,16 @@ export default {
     let counter = 0;
     this.chartOptions.labels = [];
     this.chartOptions.series = [];
-    //this.series = [];
-    //console.log(this.labels.length);
-    let total = 0;
     this.labels.forEach((element) => {
       if (element.text == "Profit") console.log(element.value);
       this.chartOptions.labels[counter] = element.text;
       this.chartOptions.series[counter] = Math.abs(element.value); //
       this.chartOptions.colors[counter] = this.colors[counter];
       this.series[counter] = Math.abs(element.value); // (element.value + "").replace("-", "");
-      total = total + parseInt(element.value);
       counter++;
     });
-    // this.chartOptions.labels[0] = "Low";
-    // this.chartOptions.series[0] = data["1"]?.length ?? 0;
-    // this.chartOptions.labels[1] = "Medium";
-    // this.chartOptions.series[1] = data["2"]?.length ?? 0;
-    // this.chartOptions.labels[2] = "High";
-    // this.chartOptions.series[2] = data["3"]?.length ?? 0;
-    //this.chartOptions.customTotalValue = this.total;
-    this.chartOptions.customTotalValue = total;
+
+    this.chartOptions.customTotalValue = this.total;
 
     // } catch (e) {}
     this.key += 1;
