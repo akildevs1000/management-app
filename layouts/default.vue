@@ -29,6 +29,8 @@
         <!-- Center title -->
         <v-col class="text-center" cols="4">
           <img src="/login/login-logo.png" style="width: 100%" />
+          <br />
+          <span class="text-color">{{ $auth?.user?.company?.name }}</span>
         </v-col>
 
         <!-- Right side with avatar -->
@@ -93,7 +95,7 @@
       </v-container>
     </v-main>
 
-    <v-footer fixed app dense flat class="white">
+    <v-footer fixed app dense flat class="white pb-5">
       <v-row align="center" no-gutters>
         <v-col cols="12" class="mb-1">
           <v-divider></v-divider>
@@ -103,7 +105,7 @@
           <v-icon color="#968f9f">mdi-home</v-icon>
         </v-col>
         <v-col class="text-center">
-          <v-icon color="#b8afaa">mdi-bed</v-icon>
+          <v-icon color="#b8afaa" to="/cleaning">mdi-bed</v-icon>
         </v-col>
         <v-col class="text-center">
           <v-icon color="#cfbeb4">mdi-cash-multiple</v-icon>
