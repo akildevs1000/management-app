@@ -416,7 +416,13 @@ export default {
   mounted() {
     document.addEventListener("mousemove", this.updateMouseLocation);
     setInterval(() => {
-      this.currentTime = new Date().toLocaleTimeString([], { hour12: false });
+      this.currentTime = new Intl.DateTimeFormat("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+        timeZone: "Asia/Kolkata", // Timezone for IST
+      }).format(new Date());
     }, 1000);
 
     const now = new Date();

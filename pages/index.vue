@@ -400,7 +400,7 @@ export default {
           company_id: this.$auth.user && this.$auth.user.company.id,
           check_in: new Date().toJSON().slice(0, 10),
           // check_in: this.filterDate,
-          filter_date: this.filterDate,
+          // filter_date: this.filterDate,
         },
       };
       this.$axios.get(`room_list_grid`, payload).then(({ data }) => {
@@ -439,7 +439,7 @@ export default {
             color: "white",
             bgColor: "#d9534f",
             label: "Checkin",
-            value: expectCheckOut.length + Occupied.length,
+            value: Occupied.length,
             sub_value: sold.length,
           },
           {
@@ -447,7 +447,7 @@ export default {
             bgColor: "#ddbc91",
             label: "Checkout",
             value: dirtyRooms.length,
-            sub_value: expectCheckOut.length || "0",
+            sub_value: expectCheckOut.length || 0,
           },
           {
             color: "black",
